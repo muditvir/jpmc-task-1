@@ -334,7 +334,12 @@ class App(object):
 # Main
 
 if __name__ == '__main__':
-    if not os.path.isfile('test.csv'):
-        print("No data found, generating...")
-        generate_csv()
-    run(App())
+    for _ in range(N):
+        quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+
+        prices={}
+        for quote in quotes:
+            stock, bid_price, ask_price, price =getDataPoint(quote)
+            prices[stock]=price
+            print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+        print("Ratio %s" % (getRatio(prices['ABC'],prices['DEF']))  )
